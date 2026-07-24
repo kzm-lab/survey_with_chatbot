@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "survey_with_chatbot"
+version = "0.1.0"
+description = "Tools for survey papers with chatbot"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "pdfminer.six>=20221105",
+]
+
+[project.scripts]
+pdf2txt_dir_tar_zip = "survey_with_chatbot.pdf2txt_dir_tar_zip:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["survey_with_chatbot*"]
