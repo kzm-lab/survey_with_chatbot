@@ -27,7 +27,7 @@ import sys
 import tarfile
 import tempfile
 import zipfile
-from pathlib import Path, PurePosixPath
+from pathlib import Path
 
 
 # ---------------------------------------------------------------------------
@@ -47,25 +47,28 @@ def _pdf_to_text(pdf_path: Path) -> str:
 
 def _safe_tar_extract(tf: tarfile.TarFile, dest: Path) -> None:
     """Extract *tf* to *dest*, rejecting dangerous member paths."""
+    dest_resolved = dest.resolve()
     for member in tf.getmembers():
-        member_path = Path(member.name)
-        # Reject absolute paths and path components that escape the destination.
-        if member_path.is_absolute():
+        # Reject absolute paths (handles POSIX, Windows drive letters, UNC paths).
+        if os.path.isabs(member.name):
             raise ValueError(f"Unsafe tar member (absolute path): {member.name!r}")
-        resolved = (dest / member_path).resolve()
-        if not str(resolved).startswith(str(dest.resolve())):
+        # Reject path components that escape the destination directory.
+        resolved = (dest / member.name).resolve()
+        if not resolved.is_relative_to(dest_resolved):
             raise ValueError(f"Unsafe tar member (path traversal): {member.name!r}")
     tf.extractall(str(dest), filter="data")
 
 
 def _safe_zip_extract(zf: zipfile.ZipFile, dest: Path) -> None:
     """Extract *zf* to *dest*, rejecting dangerous member paths."""
+    dest_resolved = dest.resolve()
     for name in zf.namelist():
-        member_path = PurePosixPath(name)
-        if member_path.is_absolute():
+        # Reject absolute paths (handles POSIX, Windows drive letters, UNC paths).
+        if os.path.isabs(name):
             raise ValueError(f"Unsafe zip member (absolute path): {name!r}")
+        # Reject path components that escape the destination directory.
         resolved = (dest / name).resolve()
-        if not str(resolved).startswith(str(dest.resolve())):
+        if not resolved.is_relative_to(dest_resolved):
             raise ValueError(f"Unsafe zip member (path traversal): {name!r}")
     zf.extractall(str(dest))
 
