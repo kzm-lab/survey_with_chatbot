@@ -25,7 +25,9 @@ python pdf2txt_dir_tar_zip.py 処理するフォルダのフルパス
 
 指定したフォルダにall_text_files.tar.gzができているので、これをChatBotのウィンドウにドラッグ＆ドロップする。
 例えば、「これらの論文のテキストファイルから、VR酔いに関連し、眼球運動や血圧、心拍変動などの生理指標を利用しているもののタイトルをあげてください。」などのプロンプトを与える。
+
 （回答例）１分弱かかりました
+
 | 論文タイトル                                                                                                                      | 使用している主な生理指標                |
 | --------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
 | **Impact of Visually Induced Motion Sickness from VR Depending on Viewing Patterns, View Movement and Background Motion**   | ECG、心拍R–R間隔、LF/HF、呼吸        |
@@ -39,11 +41,27 @@ python pdf2txt_dir_tar_zip.py 処理するフォルダのフルパス
 | **Virtual Reality Sickness Reduces Attention During Immersive Experiences**                                                 | EEG／事象関連電位（P3b）             |
 | **Exploring Neural Biomarkers in Young Adults Resistant to VR Motion Sickness: A Pilot Study of EEG**                       | EEG（EOGは眼球運動ノイズ除去用）         |
 
+（別の日の回答）
+| 論文タイトル                                                                                                                            | 使用している指標                                | 用途・測定方法                                                                            |
+| --------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------- | ---------------------------------------------------------------------------------- |
+| **Virtual reality sickness detection: an approach based on physiological signals and machine learning**                           | 心拍数、心拍変動（HRV）、発汗関連指標（EDA／皮膚コンダクタンス）、BVP | Shimmer GSR+でPPGによる血液容積脈波とEDAを連続測定し、VR酔いを機械学習で推定                                   |
+| **Motion Sickness in Virtual Reality: An Empirical Evaluation**                                                                   | 血圧、心拍数、血糖値                              | VR体験の前後に血圧・心拍数・血糖値を測定し、VR環境の種類や主観的酔いとの関係を評価                                        |
+| **Evaluation of Eardrum Temperature and Autonomic Nervous Activity by VR Motion Sickness in Amusement Parks VR Attraction**       | 心拍数、心拍変動（RRI、LF、HF、LF/HF）、鼓膜温度、ECG      | ECGと鼓膜温度を測定し、自律神経活動およびVR酔いとの関係を評価                                                  |
+| **Evaluation of Simulator Sickness for 360° Videos on an HMD Subject to Participants’ Experience with Virtual Reality**           | 眼球運動・視線、心拍数、GSR（皮膚電気反応）                 | Tobii内蔵アイトラッカー、Shimmer GSRセンサー、PPGセンサーを使用                                          |
+| **Real-Time Detection of Simulator Sickness in Virtual Reality Games Based on Players’ Psychophysiological Data during Gameplay** | 眼球運動、EEG                                | HTC Vive Pro Eyeから13種類の眼球運動データを記録し、眼球加速度などを用いてリアルタイム検出。EEGも収集・解析したが、一貫した特徴は得られなかった |
+| **The Effect of a Foveated Field-of-view Restrictor on VR Sickness**                                                              | 視線位置、視線分散                               | HTC Vive Pro Eyeの両眼アイトラッカー（120 Hz）で視線を測定。視線分散を眼球行動の指標として使用                         |
+| **Estimating VR Sickness Caused by Camera Shake in VR Videography**                                                               | ECG、EEG                                 | 15名からVR映像視聴中のECGと14チャンネルEEGを収集し、VR酔い推定モデルの生理特徴として使用                                |
+| **Using EEG and Deep Learning to Predict Motion Sickness**                                                                        | EEG                                     | NeuroSky MindWave Mobileで脳波を記録し、深層学習によってVR酔いを予測                                    |
+
 
 # テスト環境
 
 手元でのテスト環境は以下の通り
+
 Python 3.14.6
+
 追加したモジュール
+
 pip install fitz
+
 pip install PyMuPDF
